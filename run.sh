@@ -2,7 +2,7 @@
 
 run() {
 	# Check to see if a container named archdev exists
-	if [ -n "$(docker ps -q -f name=archdev)" ]; then
+	if [ -n "$(docker ps -aq -f name=archdev)" ]; then
 		echo "Container exists"
 		# if it is runnong, attach to it
 		if [ -n "$(docker ps -aq -f status=running -f name=archdev)" ]; then
