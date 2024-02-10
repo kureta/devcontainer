@@ -7,5 +7,5 @@
 init: .init Dockerfile run.sh
 	./run.sh build
 
-run: .init run.sh
+run: init run.sh
 	./run.sh run
