@@ -14,7 +14,7 @@ run() {
 			docker start archdev && docker attach archdev
 		fi
 	else
-		echo "Container does not exists. Creating and attaching to it..."
+		echo "Container does not exist. Creating and attaching to it..."
 		# if it does not exist, create it and attach to it
 		docker run -it --name archdev kureta/archdev:latest
 	fi

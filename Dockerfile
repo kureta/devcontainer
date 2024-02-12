@@ -25,6 +25,13 @@ RUN mkdir -p ~/.ssh && \
 # clone dotfiles via yadm
 RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
   --mount=type=cache,target=/var/cache/pacman/pkg \
-  yadm clone --bootstrap git@github.com:kureta/devcontainer-dotfiles.git
+  # Actual command below
+  # yadm clone --bootstrap git@github.com:kureta/devcontainer-dotfiles.git
+  # Code for rapid testing
+  yadm clone git@github.com:kureta/devcontainer-dotfiles.git
+COPY ./devcontainer-dotfiles/.config/yadm/bootstrap /home/user/.config/yadm/bootstrap
+RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
+  --mount=type=cache,target=/var/cache/pacman/pkg \
+  yadm bootstrap
 
 ENTRYPOINT ["/usr/bin/zsh"]
