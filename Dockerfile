@@ -7,7 +7,7 @@ RUN --mount=type=cache,target=/var/cache/pacman/pkg \
   pacman -Sy && \
   pacman -S --noconfirm sudo yadm openssh
 
-# ccreate new user with uid and gid 1000 and add user to sudoers
+# create new user with uid and gid 1000 and add user to sudoers
 RUN useradd -m -u 1000 -U -s /bin/bash user && \
   echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
@@ -28,11 +28,5 @@ RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
   --mount=type=cache,target=/var/cache/pacman/pkg \
   yadm clone --bootstrap git@github.com:kureta/devcontainer-dotfiles.git && \
   yadm bootstrap
-
-# TESTING: copy files from host to container for rapid testing
-# COPY --chown=user:user devcontainer-dotfiles /home/user
-# RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
-#   --mount=type=cache,target=/var/cache/pacman/pkg \
-#   yadm bootstrap
 
 ENTRYPOINT ["/usr/bin/zsh"]
