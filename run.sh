@@ -22,7 +22,7 @@ run() {
 
 build() {
 	docker rm archdev
-	docker build --ssh default=$SSH_AUTH_SOCK -t kureta/archdev:latest .
+	docker build --ssh default=$SSH_AUTH_SOCK --build-arg BASE_IMAGE=$1 -t kureta/archdev:latest .
 }
 
 $*

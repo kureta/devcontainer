@@ -1,4 +1,5 @@
-FROM archlinux:latest
+ARG BASE_IMAGE=archlinux:latest
+FROM $BASE_IMAGE
 
 # install sudo
 RUN --mount=type=cache,target=/var/cache/pacman/pkg \
@@ -22,16 +23,16 @@ RUN mkdir -p ~/.ssh && \
 RUN mkdir -p ~/.ssh && \
   ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-# clone dotfiles via yadm
+# RELEASE: clone dotfiles via yadm
 RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
   --mount=type=cache,target=/var/cache/pacman/pkg \
-  # Actual command below
-  # yadm clone --bootstrap git@github.com:kureta/devcontainer-dotfiles.git
-  # Code for rapid testing
-  yadm clone git@github.com:kureta/devcontainer-dotfiles.git
-COPY ./devcontainer-dotfiles/.config/yadm/bootstrap /home/user/.config/yadm/bootstrap
-RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
-  --mount=type=cache,target=/var/cache/pacman/pkg \
+  yadm clone --bootstrap git@github.com:kureta/devcontainer-dotfiles.git && \
   yadm bootstrap
+
+# TESTING: copy files from host to container for rapid testing
+# COPY --chown=user:user devcontainer-dotfiles /home/user
+# RUN --mount=type=ssh,required=true,uid=1000,gid=1000 \
+#   --mount=type=cache,target=/var/cache/pacman/pkg \
+#   yadm bootstrap
 
 ENTRYPOINT ["/usr/bin/zsh"]
